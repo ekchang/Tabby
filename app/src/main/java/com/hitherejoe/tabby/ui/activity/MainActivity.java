@@ -138,7 +138,7 @@ public class MainActivity extends BaseActivity {
             intentBuilder.setStartAnimations(this,
                     R.anim.slide_in_right, R.anim.slide_out_left);
             intentBuilder.setExitAnimations(this,
-                    android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    R.anim.slide_in_left, R.anim.slide_out_right);
         }
 
         CustomTabActivityHelper.openCustomTab(
