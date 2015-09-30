@@ -92,6 +92,16 @@ public class MainActivity extends BaseActivity {
         openCustomTab();
     }
 
+    @OnClick(R.id.text_open_webview)
+    public void onWebViewClick() {
+        new WebviewFallback().openUri(this, Uri.parse(URL_GITHUB));
+    }
+
+    @OnClick(R.id.text_open_chrome)
+    public void onChromeClick() {
+
+    }
+
     private void setupToolbar() {
         setSupportActionBar(mToolbar);
     }

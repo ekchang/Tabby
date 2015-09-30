@@ -11,11 +11,16 @@ import android.support.customtabs.CustomTabsSession;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class CustomTabActivityHelper {
     private CustomTabsSession mCustomTabsSession;
     private CustomTabsClient mClient;
     private CustomTabsServiceConnection mConnection;
     private ConnectionCallback mConnectionCallback;
+    private Uri mUri;
+    private Bundle mExtras;
+    private List<Bundle> mOtherLikelyBundles;
 
     /**
      * Opens the URL on a Custom Tab if possible. Otherwise fallsback to opening it on a WebView
@@ -93,6 +98,9 @@ public class CustomTabActivityHelper {
                 if (mConnectionCallback != null) mConnectionCallback.onCustomTabsConnected();
                 //Initialize a session as soon as possible.
                 getSession();
+                if (mCustomTabsSession != null) {
+                    mCustomTabsSession.mayLaunchUrl(mUri, mExtras, mOtherLikelyBundles);
+                }
             }
 
             @Override
@@ -104,13 +112,10 @@ public class CustomTabActivityHelper {
         CustomTabsClient.bindCustomTabsService(activity, packageName, mConnection);
     }
 
-    public boolean mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles) {
-        if (mClient == null) return false;
-
-        CustomTabsSession session = getSession();
-        if (session == null) return false;
-
-        return session.mayLaunchUrl(uri, extras, otherLikelyBundles);
+    public void mayLaunchUrl(Uri uri, Bundle extras, List<Bundle> otherLikelyBundles) {
+        mUri = uri;
+        mExtras = extras;
+        mOtherLikelyBundles = otherLikelyBundles;
     }
 
     /**
