@@ -50,7 +50,7 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
-    private static final String URL_ARGOS = "http://www.argos.co.uk";
+    private static final String URL_GITHUB = "http://www.github.com";
 
     private Bitmap mActionButtonBitmap;
     private Bitmap mCloseButtonBitmap;
@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity {
         mCustomTabActivityHelper.unbindCustomTabsService(this);
     }
 
-    @OnClick(R.id.text_launch_site)
+    @OnClick(R.id.text_open_tab)
     public void onLaunchSiteClick() {
         openCustomTab();
     }
@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity {
     private void setupCustomTabHelper() {
         mCustomTabActivityHelper = new CustomTabActivityHelper();
         mCustomTabActivityHelper.setConnectionCallback(mConnectionCallback);
-        mCustomTabActivityHelper.mayLaunchUrl(Uri.parse(URL_ARGOS), null, null);
+        mCustomTabActivityHelper.mayLaunchUrl(Uri.parse(URL_GITHUB), null, null);
     }
 
     private void decodeBitmaps() {
@@ -142,7 +142,7 @@ public class MainActivity extends BaseActivity {
         }
 
         CustomTabActivityHelper.openCustomTab(
-                this, intentBuilder.build(), Uri.parse(URL_ARGOS), new WebviewFallback());
+                this, intentBuilder.build(), Uri.parse(URL_GITHUB), new WebviewFallback());
     }
 
     private void decodeBitmap(final int resource) {
