@@ -96,14 +96,33 @@
 
             <TextView
                 style="@style/TitleTextStyle"
-                android:id="@+id/text_launch_site"
+                android:id="@+id/text_open_tab"
                 android:layout_below="@+id/check_custom_animations"
                 android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/touchable_background_white"
                 android:padding="16dp"
-                android:text="@string/text_launch_custom_tab"/>
+                android:text="@string/text_open_tab"/>
+
+            <TextView
+                style="@style/TitleTextStyle"
+                android:id="@+id/text_open_chrome"
+                android:layout_below="@+id/text_open_tab"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/touchable_background_white"
+                android:padding="16dp"
+                android:text="@string/text_open_chrome"/>
+
+            <TextView
+                style="@style/TitleTextStyle"
+                android:id="@+id/text_open_webview"
+                android:layout_below="@+id/text_open_chrome"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/touchable_background_white"
+                android:padding="16dp"
+                android:text="@string/text_open_webview"/>
 
         </RelativeLayout>
 

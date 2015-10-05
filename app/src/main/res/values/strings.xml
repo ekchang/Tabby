@@ -5,7 +5,9 @@
     <string name="menu_title_share">Share</string>
     <string name="menu_title_email">Email us</string>
 
-    <string name="text_launch_custom_tab">Launch Custom Tab</string>
+    <string name="text_open_tab">Launch Custom Tab</string>
+    <string name="text_open_webview">Launch WebView</string>
+    <string name="text_open_chrome">Launch Chrome</string>
 
     <string name="text_toolbar_colored">Toolbar colored</string>
     <string name="text_title_displayed">Title displayed</string>
@@ -13,5 +15,6 @@
     <string name="text_actionbar_icon_displayed">Actionbar icon</string>
     <string name="text_menu_items_displayed">Menu items</string>
     <string name="text_custom_animations">Custom animations</string>
+    <string name="toast_load_time">Loaded in %.3f s</string>
 
 </resources>
