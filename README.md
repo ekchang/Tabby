@@ -21,6 +21,14 @@ The application uses Helper Classes from the [example project by Google](https:/
     <img src="images/device.gif" alt="Web Launcher"/>
 </p>
 
+Forked Differences
+------------
+
+- Add 2 more buttons to launch the URL in external browser and in-app WebView for comparison purposes
+- Display load time for Custom Tabs (after leaving the tab and returning to activity) and when loading WebView (for comparison)
+- Change URL to point to GitHub instead of Argos (sorry, not from the UK!)
+- Fix issue with `mayLaunchUrl` optimization not being called (due to the bulk of Tabby being based off [ServiceConnectionActivity](https://github.com/GoogleChrome/custom-tabs-client/blob/master/demos/src/main/java/org/chromium/customtabsdemos/ServiceConnectionActivity.java) which has `mayLaunchUrl` as a user button pressed optimization rather than handled automatically)
+
 
 Requirements
 ------------

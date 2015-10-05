@@ -56,17 +56,21 @@ public class MainActivity extends BaseActivity {
     private Bitmap mCloseButtonBitmap;
     private CompositeSubscription mSubscriptions;
     private CustomTabActivityHelper mCustomTabActivityHelper;
+    private LoadTimeCallback mCustomTabCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         applicationComponent().inject(this);
-        setupCustomTabHelper();
         mSubscriptions = new CompositeSubscription();
+
         ButterKnife.bind(this);
         setupToolbar();
         decodeBitmaps();
+
+        mCustomTabCallback = new LoadTimeCallback();
+        setupCustomTabHelper();
     }
 
     @Override
@@ -79,13 +83,15 @@ public class MainActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         mCustomTabActivityHelper.bindCustomTabsService(this);
+        mCustomTabCallback.setActivity(this);
+        mCustomTabCallback.showTime();
     }
 
     @Override
     protected void onStop() {
-        Timber.d("onStop");
         super.onStop();
         mCustomTabActivityHelper.unbindCustomTabsService(this);
+        mCustomTabCallback.clear();
     }
 
     @OnClick(R.id.text_open_tab)
@@ -100,8 +106,11 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.text_open_chrome)
     public void onChromeClick() {
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL_GITHUB));
-        startActivity(intent);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(URL_GITHUB));
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     private void setupToolbar() {
@@ -110,6 +119,7 @@ public class MainActivity extends BaseActivity {
 
     private void setupCustomTabHelper() {
         mCustomTabActivityHelper = new CustomTabActivityHelper();
+        mCustomTabActivityHelper.setCustomTabsCallback(mCustomTabCallback);
         mCustomTabActivityHelper.setConnectionCallback(mConnectionCallback);
         mCustomTabActivityHelper.mayLaunchUrl(Uri.parse(URL_GITHUB), null, null);
     }
@@ -120,7 +130,8 @@ public class MainActivity extends BaseActivity {
     }
 
     private void openCustomTab() {
-        CustomTabsIntent.Builder intentBuilder = new CustomTabsIntent.Builder();
+        CustomTabsIntent.Builder intentBuilder =
+                new CustomTabsIntent.Builder(mCustomTabActivityHelper.getSession());
 
         if (mColorToolbarCheck.isChecked()) {
             int color = getResources().getColor(R.color.primary);
@@ -143,7 +154,8 @@ public class MainActivity extends BaseActivity {
         }
 
         if (mActionButtonBitmap != null && mActionBarIconCheck.isChecked()) {
-            intentBuilder.setActionButton(mActionButtonBitmap, getString(R.string.menu_title_share), createPendingShareIntent());
+            intentBuilder.setActionButton(mActionButtonBitmap, getString(R.string.menu_title_share),
+                    createPendingShareIntent());
         }
 
         if (mCustomAnimationsCheck.isChecked()) {
@@ -198,16 +210,19 @@ public class MainActivity extends BaseActivity {
     }
 
     // You can use this callback to make UI changes
-    private CustomTabActivityHelper.ConnectionCallback mConnectionCallback = new CustomTabActivityHelper.ConnectionCallback() {
-        @Override
-        public void onCustomTabsConnected() {
-            SnackbarFactory.createSnackbar(MainActivity.this, mLayoutMainCoordinator, "Connected to service").show();
-        }
+    private CustomTabActivityHelper.ConnectionCallback mConnectionCallback =
+            new CustomTabActivityHelper.ConnectionCallback() {
+                @Override
+                public void onCustomTabsConnected() {
+                    SnackbarFactory.createSnackbar(mLayoutMainCoordinator, "Connected to service")
+                            .show();
+                }
 
-        @Override
-        public void onCustomTabsDisconnected() {
-            SnackbarFactory.createSnackbar(MainActivity.this, mLayoutMainCoordinator, "Disconnected from service").show();
-        }
-    };
+                @Override
+                public void onCustomTabsDisconnected() {
+                    SnackbarFactory.createSnackbar(mLayoutMainCoordinator,
+                            "Disconnected from service").show();
+                }
+            };
 
 }

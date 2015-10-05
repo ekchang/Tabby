@@ -15,5 +15,6 @@
     <string name="text_actionbar_icon_displayed">Actionbar icon</string>
     <string name="text_menu_items_displayed">Menu items</string>
     <string name="text_custom_animations">Custom animations</string>
+    <string name="toast_load_time">Loaded in %.3f s</string>
 
 </resources>
