@@ -108,7 +108,9 @@ public class MainActivity extends BaseActivity {
     public void onChromeClick() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(URL_GITHUB));
-        startActivity(intent);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     private void setupToolbar() {
