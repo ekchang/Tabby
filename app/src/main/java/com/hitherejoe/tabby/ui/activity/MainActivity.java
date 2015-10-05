@@ -84,13 +84,13 @@ public class MainActivity extends BaseActivity {
         super.onStart();
         mCustomTabActivityHelper.bindCustomTabsService(this);
         mCustomTabCallback.setActivity(this);
+        mCustomTabCallback.showTime();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         mCustomTabActivityHelper.unbindCustomTabsService(this);
-        mCustomTabCallback.showTime();
         mCustomTabCallback.clear();
     }
 
@@ -106,7 +106,9 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.text_open_chrome)
     public void onChromeClick() {
-
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(URL_GITHUB));
+        startActivity(intent);
     }
 
     private void setupToolbar() {
