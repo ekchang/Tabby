@@ -100,7 +100,8 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.text_open_chrome)
     public void onChromeClick() {
-
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL_GITHUB));
+        startActivity(intent);
     }
 
     private void setupToolbar() {
