@@ -12,6 +12,8 @@ import android.support.customtabs.CustomTabsSession;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class CustomTabActivityHelper {
     private CustomTabsSession mCustomTabsSession;
     private CustomTabsClient mClient;
@@ -40,6 +42,7 @@ public class CustomTabActivityHelper {
         //Chrome Custom Tabs installed. So, we fallback to the webview
         if (packageName == null) {
             if (fallback != null) {
+                Timber.d("Chrome not found on device, resorting to fallback");
                 fallback.openUri(activity, uri);
             }
         } else {
@@ -103,17 +106,22 @@ public class CustomTabActivityHelper {
         if (mClient != null) return;
 
         String packageName = CustomTabsHelper.getPackageNameToUse(activity);
-        if (packageName == null) return;
+        if (packageName == null) {
+            Timber.d("Chrome not found on device, service not bound");
+            return;
+        }
         mConnection = new CustomTabsServiceConnection() {
             @Override
             public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
                 mClient = client;
                 mClient.warmup(0L);
+                Timber.d("Warming up client");
                 if (mConnectionCallback != null) mConnectionCallback.onCustomTabsConnected();
                 //Initialize a session as soon as possible.
                 getSession();
                 if (mCustomTabsSession != null) {
                     mCustomTabsSession.mayLaunchUrl(mUri, mExtras, mOtherLikelyBundles);
+                    Timber.d("URL found, perform preloading optimization");
                 }
             }
 

@@ -199,14 +199,14 @@ public class MainActivity extends BaseActivity {
                 Intent.ACTION_SENDTO, Uri.fromParts("mailto", "example@example.com", null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
         emailIntent.putExtra(Intent.EXTRA_TEXT, "Body");
-        return PendingIntent.getActivity(getApplicationContext(), 0, emailIntent, 0);
+        return PendingIntent.getActivity(getApplicationContext(), 0, emailIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     private PendingIntent createPendingShareIntent() {
         Intent actionIntent = new Intent(Intent.ACTION_SEND);
         actionIntent.setType("text/plain");
         actionIntent.putExtra(Intent.EXTRA_TEXT, "This is sharing some text");
-        return PendingIntent.getActivity(getApplicationContext(), 0, actionIntent, 0);
+        return PendingIntent.getActivity(getApplicationContext(), 0, actionIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     // You can use this callback to make UI changes
