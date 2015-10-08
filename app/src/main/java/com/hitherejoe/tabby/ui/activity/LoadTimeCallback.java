@@ -24,12 +24,13 @@ public class LoadTimeCallback extends CustomTabsCallback {
             case NAVIGATION_STARTED:
                 hasLoaded = false;
                 mTime = System.nanoTime();
+                Timber.d("start %d", mTime);
                 break;
             case NAVIGATION_FINISHED:
                 hasLoaded = true;
+                Timber.d("finished %d", mTime);
                 mTime = System.nanoTime() - mTime;
-                Timber.d("Time %d ns", mTime);
-                showTime();
+                Timber.d("Time to load %d ns", mTime);
                 break;
         }
     }

@@ -115,11 +115,13 @@ public class CustomTabActivityHelper {
             public void onCustomTabsServiceConnected(ComponentName name, CustomTabsClient client) {
                 mClient = client;
                 mClient.warmup(0L);
+                Timber.d("Warming up client");
                 if (mConnectionCallback != null) mConnectionCallback.onCustomTabsConnected();
                 //Initialize a session as soon as possible.
                 getSession();
                 if (mCustomTabsSession != null) {
                     mCustomTabsSession.mayLaunchUrl(mUri, mExtras, mOtherLikelyBundles);
+                    Timber.d("URL found, perform preloading optimization");
                 }
             }
 

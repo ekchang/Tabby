@@ -24,6 +24,7 @@ public class WebViewActivity extends BaseActivity {
     public static final String EXTRA_URL =
             "com.hitherejoe.tabby.ui.activity.WebViewActivity.EXTRA_URL";
     private long mTime;
+    private boolean isLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +36,22 @@ public class WebViewActivity extends BaseActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                mTime = System.nanoTime();
+                Timber.d("loading URL: %s", url);
+                if (!isLoading) {
+                    mTime = System.nanoTime();
+                    Timber.d("start %d", mTime);
+                    isLoading = true;
+                }
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                Timber.d("finished %d", mTime);
                 mTime = System.nanoTime() - mTime;
-                Timber.d("Time %d ns", mTime);
+                Timber.d("Time to load %d ns", mTime);
+                isLoading = false;
                 showTime();
-
             }
         };
         mWebView.setWebViewClient(client);
